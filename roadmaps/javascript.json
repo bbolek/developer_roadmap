@@ -1,0 +1,134 @@
+{
+  "nodes": [{
+    "id": "1",
+    "position": { "x": 0, "y": 0 },
+    "type": "custom",
+    "data": {
+      "label": "Front End",
+      "importance": 3
+    }
+  },
+    {
+      "id": "2",
+      "position": { "x": 0, "y": 0 },
+      "type": "custom",
+      "data": {
+        "label": "Internet",
+        "importance": 3
+      }
+
+    },{
+      "id": "3",
+      "position": { "x": 0, "y": 0 },
+      "type": "custom",
+      "data": {
+        "label": "How does the internet work?",
+        "importance": 3
+      }
+
+    },{
+      "id": "4",
+      "position": { "x": 0, "y": 0 },
+      "type": "custom",
+      "data": {
+        "label": "What is HTTP?",
+        "importance": 3
+      }
+
+    },{
+      "id": "5",
+      "position": { "x": 0, "y": 0 },
+      "type": "custom",
+      "data": {
+        "label": "Browsers and how they work?",
+        "importance": 3
+      }
+
+    },{
+      "id": "7",
+      "type": "custom",
+      "position": { "x": 0, "y": 0 },
+      "data": {
+        "label": "HTML",
+        "importance": 2
+      }
+
+    },{
+      "id": "8",
+      "position": { "x": 0, "y": 0 },
+      "type": "custom",
+      "data": {
+        "label": "Learn the basics",
+        "importance": 3
+      }
+
+    },{
+      "id": "9",
+      "position": { "x": 0, "y": 0 },
+      "type": "custom",
+      "data": {
+        "label": "Writing Semantic HTML",
+        "importance": 3
+      }
+
+    },{
+      "id": "10",
+      "position": { "x": 0, "y": 0 },
+      "type": "custom",
+      "data": {
+        "label": "Forms and Validations",
+        "importance": 3
+      }
+
+    },{
+      "id": "11",
+      "position": { "x": 0, "y": 0 },
+      "type": "custom",
+      "data": {
+        "label": "CSS",
+        "importance": 2
+      }
+
+    },{
+      "id": "12",
+      "position": { "x": 0, "y": 0 },
+      "type": "custom",
+      "data": {
+        "label": "Learn the basics",
+        "importance": 3
+      }
+
+    },{
+      "id": "13",
+      "position": { "x": 0, "y": 0 },
+      "type": "custom",
+      "data": {
+        "label": "Making Layouts",
+        "importance": 1
+      }
+
+    },{
+      "id": "14",
+      "type": "custom",
+      "position": { "x": 0, "y": 0 },
+      "data": {
+        "label": "Responsive design and Media Queries",
+        "importance": 2
+      }
+
+    }],
+  "edges": [
+    { "id": "e11", "source": "1", "target": "2", "type": "smoothstep", "animated": true },
+    { "id": "e23", "source": "2", "target": "3", "type": "smoothstep", "animated": true },
+    { "id": "e24", "source": "2", "target": "4", "type": "smoothstep", "animated": true },
+    { "id": "e25", "source": "2", "target": "5", "type": "smoothstep", "animated": true },
+    { "id": "e17", "source": "1", "target": "7", "type": "smoothstep", "animated": true },
+    { "id": "e78", "source": "7", "target": "8", "type": "smoothstep", "animated": true },
+    { "id": "e79", "source": "7", "target": "9", "type": "smoothstep", "animated": true },
+    { "id": "e710", "source": "7", "target": "10", "type": "smoothstep", "animated": true },
+    { "id": "e111", "source": "1", "target": "11", "type": "smoothstep", "animated": true },
+    { "id": "e1112", "source": "11", "target": "12", "type": "smoothstep", "animated": true },
+    { "id": "e1113", "source": "11", "target": "13", "type": "smoothstep", "animated": true },
+    { "id": "e1114", "source": "11", "target": "14", "type": "smoothstep", "animated": true }
+  ]
+}
