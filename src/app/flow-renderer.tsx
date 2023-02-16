@@ -1,97 +1,75 @@
 'use client';
 
-import {useCallback, useMemo} from 'react';
-import dagre from 'dagre';
-import data from '../../roadmaps/javascript.json';
-import ReactFlow, {addEdge, ConnectionLineType, Edge, Node, Position, useEdgesState, useNodesState} from 'reactflow';
+import {useCallback, useMemo, useState} from 'react';
+import ReactFlow, {addEdge, ConnectionLineType, ConnectionMode, Node, ReactFlowInstance, useEdgesState, useNodesState} from 'reactflow';
 import 'reactflow/dist/style.css';
 import CustomNode from '@/app/custom-node';
-
-const dagreGraph = new dagre.graphlib.Graph();
-dagreGraph.setDefaultEdgeLabel(() => ({}));
-const nodeWidth = 172;
-const nodeHeight = 36;
-
-const getLayoutedElements = (nodes: Node[], edges: Edge[], direction = 'TB') => {
-    const isHorizontal = direction === 'LR';
-    dagreGraph.setGraph({ rankdir: direction });
-
-    nodes.forEach((node) => {
-        dagreGraph.setNode(node.id, { width: nodeWidth, height: nodeHeight });
-    });
-
-    edges.forEach((edge) => {
-        dagreGraph.setEdge(edge.source, edge.target);
-    });
-
-    dagre.layout(dagreGraph);
-
-    nodes.forEach((node) => {
-        const nodeWithPosition = dagreGraph.node(node.id);
-        node.targetPosition = isHorizontal ? Position.Left : Position.Top;
-        node.sourcePosition = isHorizontal ? Position.Right : Position.Bottom;
-
-        // We are shifting the dagre node position (anchor=center center) to the top left
-        // so it matches the React Flow node anchor point (top left).
-        node.position = {
-            x: nodeWithPosition.x - nodeWidth / 2,
-            y: nodeWithPosition.y - nodeHeight / 2,
-        };
-
-        return node;
-    });
-
-    return { nodes, edges };
-};
-
-const { nodes: layoutedNodes, edges: layoutedEdges } = getLayoutedElements(
-    data.nodes,
-    data.edges
-);
+import AddNode from '@/app/add-node';
+import {ItemImportance} from '../../enums/item-importance.enum';
+import {Connection} from '@reactflow/core/dist/esm/types/general';
+import ReactJson from 'react-json-view'
 
 const FlowRenderer = () => {
-    const [nodes, setNodes, onNodesChange] = useNodesState(layoutedNodes);
-    const [edges, setEdges, onEdgesChange] = useEdgesState(layoutedEdges);
+    const [isAddNodeModalOpen, setIsAddNodeModalOpen] = useState<boolean>(false);
+    const [nodes, setNodes, onNodesChange] = useNodesState([]);
+    const [edges, setEdges, onEdgesChange] = useEdgesState([]);
+    const [json, setJson] = useState({});
     const nodeTypes = useMemo(() => ({ custom: CustomNode }), []);
+    const [rfInstance, setRfInstance] = useState<ReactFlowInstance<any, any> | null>(null);
 
-    const onConnect = useCallback(
-        (params: any) =>
-            setEdges((eds) =>
-                addEdge({ ...params, type: ConnectionLineType.SmoothStep, animated: true }, eds)
-            ),
-        []
-    );
-    const onLayout = useCallback(
-        (direction: string) => {
-            const { nodes: layoutedNodes, edges: layoutedEdges } = getLayoutedElements(
-                nodes,
-                edges,
-                direction
-            );
+    const onConnect = useCallback((params: Connection) => {
+        setEdges((eds) => addEdge(params, eds));
+    }, []);
 
-            setNodes([...layoutedNodes]);
-            setEdges([...layoutedEdges]);
-        },
-        [nodes, edges]
-    );
+    const onSave = useCallback(() => {
+        if (rfInstance) {
+            const flow = rfInstance.toObject();
+            setJson(flow);
+        }
+    }, [rfInstance]);
+
+    const addNode = (label:string, importance: ItemImportance) => {
+        const id = (nodes.length + 1).toString();
+        const node: Node = {
+            data: {label, importance: importance},
+            id: id,
+            position: {
+                x: 0,
+                y: (nodes.length + 1) * 50
+            },
+            type:'custom'
+        }
+        setNodes((nodes) => [...nodes, node]);
+    }
+
 
     // @ts-ignore
-    return (
-        <div style={{
-            width: 1568,
-            height: 1200
-        }}>
-            <ReactFlow
-                nodes={nodes}
-                edges={edges}
-                onNodesChange={onNodesChange}
-                onEdgesChange={onEdgesChange}
-                nodeTypes= {nodeTypes}
-                onConnect={onConnect}
-                connectionLineType={ConnectionLineType.SmoothStep}
-                fitView
-            />
-        </div>
+    return (<div className='flex flex-row pt-6'>
+            <div className='h-full w-1/3 space-y-4'>
+                <button className='justify-end bg-blue-600 px-4 py-2 text-white rounded-md' onClick={onSave}>Refresh</button>
+                <ReactJson src={json as any} theme='hopscotch' displayDataTypes={false} displayObjectSize={false} collapsed={2}  />
+            </div>
+        <div className=' flex flex-row w-full h-full justify-center space-x-4'>
+            <div className='w-[1568px] h-[1200px] border'>
+                <ReactFlow
+                    nodes={nodes}
+                    connectionMode={ConnectionMode.Loose}
+                    edges={edges}
+                    onNodesChange={onNodesChange}
+                    onEdgesChange={onEdgesChange}
+                    nodeTypes= {nodeTypes}
+                    onConnect={onConnect}
+                    onInit={(instance) => setRfInstance(instance)}
+                    connectionLineType={ConnectionLineType.SmoothStep}
+                    fitView
+                />
+            </div>
+
+            <div className='flex flex-col space-y-4 pt-4'>
+                <button className='bg-blue-600 px-4 py-2 text-white rounded-md' onClick={() => setIsAddNodeModalOpen(true)}>Add Node</button>
+            </div>
+        <AddNode onSave={(label, importance) => addNode(label, importance)} isOpen={isAddNodeModalOpen} setOpen={(value) => setIsAddNodeModalOpen(value)} />
+        </div></div>
     );
 };
 export default FlowRenderer;
