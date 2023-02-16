@@ -4,5 +4,6 @@ export interface Item {
     id: string;
     label: string;
     children: Item[];
-    importance: ItemImportance
+    importance: ItemImportance,
+    shortCode: string;
 }
