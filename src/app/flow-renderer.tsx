@@ -8,13 +8,14 @@ import AddNode from '@/app/add-node';
 import {Connection} from '@reactflow/core/dist/esm/types/general';
 import ReactJson from 'react-json-view'
 import {Item} from '../../models/item.model';
-import Draggable from 'react-draggable';
+import data from '../../roadmaps/javascript.json';
 
 const FlowRenderer = () => {
+    const useJson = true;
     const [isAddNodeModalOpen, setIsAddNodeModalOpen] = useState<boolean>(false);
     const [selectedNode, setSelectedNode] = useState<Item |  null>(null);
-    const [nodes, setNodes, onNodesChange] = useNodesState([]);
-    const [edges, setEdges, onEdgesChange] = useEdgesState([]);
+    const [nodes, setNodes, onNodesChange] = useNodesState(useJson ? data.nodes : []);
+    const [edges, setEdges, onEdgesChange] = useEdgesState(useJson ? data.edges: []);
     const [json, setJson] = useState({});
 
     const nodeTypes = useMemo(() => ({ custom: CustomNode }), []);
@@ -69,6 +70,11 @@ const FlowRenderer = () => {
     }
 
 
+    const addNodeClosed = () => {
+        setIsAddNodeModalOpen(false);
+        setSelectedNode(null);
+    }
+
     // @ts-ignore
     return (<div className='flex flex-row pt-6'>
             <div className='h-full w-1/3 space-y-4'>
@@ -99,7 +105,7 @@ const FlowRenderer = () => {
                         onSave={(item) => upsertNode(item)}
                         isOpen={isAddNodeModalOpen}
                         onDelete={(id) => onDelete(id)}
-                        setOpen={(value) => setIsAddNodeModalOpen(value)} item={selectedNode}/>}
+                        setOpen={(value) => addNodeClosed()} item={selectedNode}/>}
         </div></div>
     );
 };
