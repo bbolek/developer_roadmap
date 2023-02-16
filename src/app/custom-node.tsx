@@ -20,50 +20,23 @@ const CustomNode = ({data}: {data: Item, isConnectable: any}) => {
         setDisplayData((value) => !value);
     }
 
-    return <div className={wrapper} onClick={() => display()}>
-        <div className="flex">
-            <div>
-                <div className="text-sm">{data.label}</div>
+    return <div className={wrapper}>
+        <div className="flex group">
+            <div className='flex flex-col items-center'>
+                <div className="text-sm pb-2">{data.label}</div>
+                <button className='bg-white border border-blue-500 text-blue-400 px-4 py-1 rounded-md hidden group-hover:block' onClick={() => display()}>Display</button>
             </div>
-            {displayData &&  <Transition
-                show={displayData}
-                as={Fragment}
-            ><Dialog
+            {displayData &&  <Dialog
                 open={displayData}
                 onClose={() => setDisplayData(false)}
                 className="relative z-50"
                 >
-                <Transition.Child
-                    as={Fragment}
-                    enter="ease-out duration-300"
-                    enterFrom="opacity-0"
-                    enterTo="opacity-100"
-                    leave="ease-in duration-200"
-                    leaveFrom="opacity-100"
-                    leaveTo="opacity-0"
-                >
                 <div className="fixed inset-0 bg-black/50 blur-lg" aria-hidden="true" />
-                </Transition.Child>
                 <div className="fixed inset-0 flex items-center justify-center p-4">
-                    <Transition.Child
-                        as={Fragment}
-                        enter="ease-out duration-300"
-                        enterFrom="opacity-0"
-                        enterTo="opacity-100"
-                        leave="ease-in duration-200"
-                        leaveFrom="opacity-100"
-                        leaveTo="opacity-0"
-                    >
+
                     <NodeDetails shortCode={data.shortCode} />
-                    </Transition.Child>
                 </div>
-            </Dialog>
-            </Transition>
-
-
-
-
-                }
+            </Dialog> }
         </div>
         <Handle
             type="source"
