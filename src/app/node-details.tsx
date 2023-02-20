@@ -1,4 +1,5 @@
 import React from 'react';
+import Draggable from 'react-draggable';
 
 export interface NodeDetailsProps {
     shortCode: string;
@@ -6,11 +7,10 @@ export interface NodeDetailsProps {
 }
 
 const NodeDetails = React.forwardRef<HTMLDivElement, NodeDetailsProps>((props: NodeDetailsProps, forwardedRef) => {
-    return <div ref={forwardedRef} className='border border-gray-400 w-[32rem] pt-4 pb-8 top-96 bg-white justify-left text-slate-900 px-4 overflow-auto rounded-xl drop-shadow-lg divide-y space-y-4'>
+    return <Draggable><div ref={forwardedRef} className='border border-gray-400 w-[32rem] pt-4 pb-8 top-96 bg-white justify-left text-slate-900 px-4 overflow-auto rounded-xl drop-shadow-lg divide-y space-y-4'>
         <div className='flex flex-row justify-between'>
             <div>
                 <h3 className='w-full text-2xl sm:text-2xl font-bold'>Resources you can use</h3>
-                <p className='text-slate-600'>You can find the resources below:</p>
             </div>
             <div>
                 <button onClick={() => props.onComplete()} className='inline-flex justify-center rounded-md border border-red-600 shadow-sm px-2 py-2 bg-white text-base text-red-500 hover:bg-red-50'>Mark as Complete</button>
@@ -28,7 +28,7 @@ const NodeDetails = React.forwardRef<HTMLDivElement, NodeDetailsProps>((props: N
             <span className='font-bold text-gray-900'>Adnan Softic</span> & 146 others completed this.
         </div>
         <div className='py-4'>
-            <div className='font-bold'>Projects using this item</div>
+            <div className='text-lg font-bold'>Projects using this knowledge</div>
             <div>
                 <ul className='pl-4 list-disc pt-2'>
                     <li>WFGC</li>
@@ -41,6 +41,7 @@ const NodeDetails = React.forwardRef<HTMLDivElement, NodeDetailsProps>((props: N
             You can get more information from <a className='cursor-pointer underline'>here</a>...
         </div>
     </div>
+    </Draggable>
 });
 
 NodeDetails.displayName = "NodeDetails";

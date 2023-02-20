@@ -23,7 +23,7 @@ const CustomNode = ({data}: {data: Item, isConnectable: any}) => {
             <div className='flex flex-col items-center'>
                 <div className="text-sm">{data.label}</div>
                 <div className='hidden group-hover:block pt-2'>
-                    <button className='bg-white border border-blue-500 text-blue-400 px-4 py-1 rounded-md' onClick={() => display()}>Display</button>
+                    <button className='bg-white border border-blue-500 text-blue-400 px-4 py-1 rounded-md text-xs' onClick={() => display()}>Display</button>
                 </div>
             </div>
             {displayData &&  <Dialog
