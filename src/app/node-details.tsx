@@ -27,8 +27,18 @@ const NodeDetails = React.forwardRef<HTMLDivElement, NodeDetailsProps>((props: N
         <div className='pt-4 text-sm text-slate-500'>
             <span className='font-bold text-gray-900'>Adnan Softic</span> & 146 others completed this.
         </div>
+        <div className='py-4'>
+            <div className='font-bold'>Projects using this item</div>
+            <div>
+                <ul className='pl-4 list-disc pt-2'>
+                    <li>WFGC</li>
+                    <li>RGSC</li>
+                    <li>VLTR</li>
+                </ul>
+            </div>
+        </div>
         <div className='pt-4 text-sm text-slate-500'>
-            You can get more information from here...
+            You can get more information from <a className='cursor-pointer underline'>here</a>...
         </div>
     </div>
 });
